@@ -1,0 +1,6 @@
+<div class="cartas-container" *ngIf="juego.jugada">
+    <app-carta [ngClass]="{'carta': true}" [carta]="cartas[i]" *ngFor="let carta of cartas;let i = index"></app-carta>
+</div>
+<div class="cartas-container" *ngIf="!juego.jugada">
+    <div *ngFor="let carta of cartas" [ngClass]="{'carta': true,'hidden': hidden}"></div>
+</div>

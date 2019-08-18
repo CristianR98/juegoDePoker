@@ -1,0 +1,11 @@
+<div class="mesa">
+    <app-mano-rival class="rival"></app-mano-rival>
+    <div class="jugador">
+        <app-mano class="mano-jugador"></app-mano>
+        <div class="controles-jugador">
+            <button (click)="juego.cambiarMano()" [disabled]="!juego.cambiarCartasBtn" *ngIf="!juego.yaCambiadas" type="button" class="btn btn-cambiar_mano">Cambiar Mano</button>
+            <button (click)="juego.jugar()" type="button" class="btn btn-jugar">Jugar!</button>
+            <button type="button" class="btn btn-retirarse">Retirarse</button>
+        </div>
+    </div>
+</div>

@@ -1,0 +1,15 @@
+.simbolo,
+.red,
+.black {
+    color: black;
+    font-size: 3rem;
+    font-weight: bold;
+}
+
+.red {
+    color: red;
+}
+
+.black {
+    color: black;
+}
