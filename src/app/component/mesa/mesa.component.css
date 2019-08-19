@@ -1,9 +1,43 @@
 .mesa {
     background-color: #28a745;
     height: 100vh;
+    max-width: 960px;
+    width: 100%;
+    margin: auto;
     display: flex;
     flex-direction: column;
     justify-content: space-between;
 }
 
-.rival {}
+.ganador {
+    text-align: center;
+    font-size: 3rem;
+    transform: rotate(-15deg)
+}
+
+.controles-jugador {
+    padding: 1rem 0;
+    display: flex;
+    justify-content: space-evenly
+}
+
+.btn {
+    flex: 1;
+    border: none;
+    background: none;
+    border-radius: 3px;
+    margin: 0 .5rem;
+    padding: .5rem .7rem;
+}
+
+.btn-cambiar_mano {
+    background-color: #020b94
+}
+
+.btn-jugar {
+    background-color: rgb(58, 216, 27)
+}
+
+.btn-retirarse {
+    background-color: rgb(216, 27, 27)
+}

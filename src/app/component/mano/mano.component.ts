@@ -1,6 +1,7 @@
 import { Component, OnInit, OnChanges, Output } from '@angular/core';
 import { JuegoService } from 'src/app/services/juego.service';
 import { Carta } from 'src/app/Interface/carta';
+import { Mano } from 'src/app/Interface/mano';
 
 @Component({
   selector: 'app-mano',
@@ -9,16 +10,19 @@ import { Carta } from 'src/app/Interface/carta';
 })
 export class ManoComponent implements OnInit, OnChanges{
 
-  cartas:Carta[] = []
+  cartas:Carta[] = this.juego.manoJugador
+  jugada:string = ''
   
   constructor(public juego:JuegoService) {
-    this.juego.repartir(this.cartas)
-    console.log(this.cartas)
+    this.juego.repartir()
+    this.jugada = this.juego.mostrarJugadaJugador
   }
 
   ngOnInit() {
     this.juego.getNuevaMano$().subscribe(()=>{
       this.cartas = this.juego.manoJugador
+      this.jugada = this.juego.mostrarJugadaJugador
+      console.log(this.cartas)
     })
   }
 

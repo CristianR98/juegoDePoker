@@ -1,3 +1,4 @@
+<div class="jugada" *ngIf="jugada">{{jugada}}</div>
 <div class="cartas-container" #container>
-    <app-carta #estaCarta [ngClass]="{'carta': true}" [carta]="cartas[i]" *ngFor="let carta of cartas;let i = index" (click)="seleccionarCarta(container,i)"></app-carta>
+    <app-carta #estaCarta [class]="carta.clase" [ngClass]="{'carta': true}" [carta]="cartas[i]" *ngFor="let carta of cartas;let i = index" (click)="seleccionarCarta(container,i)"></app-carta>
 </div>

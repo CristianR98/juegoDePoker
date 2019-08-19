@@ -1,6 +1,7 @@
 import { Injectable } from '@angular/core';
 import { Carta } from '../Interface/carta';
 import { Observable, Subject } from 'rxjs';
+import { Mano } from '../Interface/mano';
 
 @Injectable({
   providedIn: 'root'
@@ -15,6 +16,11 @@ export class JuegoService {
   cambiarCartasBtn:boolean = false
   yaCambiadas:boolean = false
   jugada:boolean = false
+  jugadaJugador:Mano
+  jugadaIA:Mano
+  mostrarJugadaJugador:string
+  mostrarJugadaIA:string
+  ganador:string
   private mano$ = new Subject<Carta[]>();
 
   constructor() {
@@ -39,15 +45,20 @@ export class JuegoService {
     }
 }
   
-  repartir(mano:Carta[]) {
+  repartir() {
     for (let i = 0; i < 5; i++) {
-      mano.push(this.crearCarta())
       if (!this.generateManoJugador) {
-        this.manoIA.push(this.cartasJuego[i])
+        this.manoIA.push(this.crearCarta())
       }
       else{
-        this.manoJugador.push(this.cartasJuego[i+5])
+        this.manoJugador.push(this.crearCarta())
       }
+    }if (!this.generateManoJugador) {
+      this.jugadaIA = new Mano(this.manoIA)
+      this.mostrarJugadaIA = this.jugadaIA.getJugada()
+    }else{
+      this.jugadaJugador = new Mano(this.manoJugador)
+      this.mostrarJugadaJugador = this.jugadaJugador.getJugada()
     }
     this.generateManoJugador = true
 }
@@ -79,13 +90,61 @@ export class JuegoService {
     this.cartasACambiar = []
     this.cambiarCartasBtn = false
     this.yaCambiadas = true
+    this.jugadaJugador = new Mano(this.manoJugador)
+    this.mostrarJugadaJugador = this.jugadaJugador.getJugada()
     this.mano$.next(this.manoJugador)
-    console.log(this.yaCambiadas)
   }
 
   jugar() {
     this.jugada = true
+    this.jugadaJugador = new Mano(this.manoJugador)
+    this.jugadaIA = new Mano(this.manoIA)
+    this.jugadaJugador.getJugada(),
+    this.jugadaIA.getJugada()
+    let cartasIgualesJugador = this.jugadaJugador.cartasIgual,
+        cartasIgualesIA = this.jugadaIA.cartasIgual,
+        cartaMayorJugador = Math.max(...cartasIgualesJugador),
+        cartaMayorIA = Math.max(...cartasIgualesIA),
+        cartaMenorJugador = Math.min(...cartasIgualesJugador),
+        cartaMenorIA = Math.min(...cartasIgualesIA)
+    if( this.jugadaJugador.nivelJugada > this.jugadaIA.nivelJugada ) {
+      this.ganador = 'Ganaste!'
+    }else if (this.jugadaJugador.nivelJugada < this.jugadaIA.nivelJugada){
+      this.ganador = 'Ganó IA U.U'
+    }
+    else if (cartaMayorJugador > cartaMayorIA) {
+          this.ganador = 'Ganaste!'
+        }
+    else if (cartaMayorJugador < cartaMayorIA){
+      this.ganador = 'Ganó IA U.U'
+    }else if (cartaMenorJugador < cartaMenorIA){
+      this.ganador = 'Ganaste!'
+    }else if (cartaMenorJugador < cartaMenorIA){
+      this.ganador = 'Ganó IA U.U'
+    }
+      
+    else{
+      if (this.jugadaJugador.cartaAlta.valor > this.jugadaIA.cartaAlta.valor) {
+        this.ganador = 'Ganaste!'
+      }else {
+        this.ganador = 'Ganó IA U.U'
+      }
+    }
   }
-
+  jugarDeNuevo() {
+    this.cartasJuego = []
+    this.manoJugador = []
+    this.manoIA = []
+    this.cartasACambiar = []
+    this.jugada = false
+    this.yaCambiadas = false
+    this.cambiarCartasBtn = false
+    this.generateManoJugador = false
+    this.mano$.next(this.manoJugador)
+    this.repartir()
+    this.repartir()
+    this.mano$.next(this.manoJugador)
+    this.mano$.next(this.manoIA)
+  }
 
 }
