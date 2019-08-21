@@ -3,7 +3,8 @@ export interface Carta{
     simbolo:string
     palo:string
     color:string
-    clase:string
+    enJugada:boolean
+    select:boolean
 }
 
 export class Carta {
@@ -12,7 +13,8 @@ export class Carta {
         this.simbolo = this.getSimbolo()
         this.palo = this.getPalo()
         this.color = this.getColor()
-        this.clase = `${this.color} `
+        this.enJugada
+        this.select = false
     }
 
 

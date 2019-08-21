@@ -32,6 +32,7 @@ export class Mano {
         this.contador = 0
         this.getPaloJugada()
         for (let i = 0; i < this.cartas.length; i++) {
+            this.cartas[i].enJugada = false
             if (this.cartaAlta.valor < this.cartas[i].valor) {
                 this.cartaAlta = this.cartas[i]
             }
@@ -54,7 +55,7 @@ export class Mano {
         } else {
             if (!this.iguales) {
                 this.jugada = 'Carta Alta'
-                this.cartaAlta.clase += ' carta-jugada'
+                this.cartaAlta.enJugada = true
                 this.nivelJugada = 10
             } else {
                 this.jugada = this.iguales
@@ -119,11 +120,9 @@ export class Mano {
                     if (!(this.cartasIgual.indexOf(carta.valor) > -1) ) {
                         this.cartasIgual.push(carta.valor)
                     }
-                    if ( carta.clase !== `${carta.color} carta-jugada`) {
-                        carta.clase += ' carta-jugada'
+                    if (!carta.enJugada) {
+                        carta.enJugada = true
                     }
-                }else{
-                    carta.clase = ' ' + carta.color
                 }
             }
         }

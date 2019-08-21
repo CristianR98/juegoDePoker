@@ -9,7 +9,7 @@
     justify-content: space-between;
 }
 
-.ganador {
+.resultado {
     text-align: center;
     font-size: 3rem;
     transform: rotate(-15deg)
@@ -32,6 +32,10 @@
 
 .btn-cambiar_mano {
     background-color: #020b94
+}
+
+.btn-cambiar_mano:disabled {
+    background-color: #0d5599
 }
 
 .btn-jugar {

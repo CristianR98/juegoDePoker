@@ -1,8 +1,13 @@
+<app-navbar></app-navbar>
 <div class="mesa">
-    <app-mano-rival class="rival"></app-mano-rival>
-    <div class="ganador" *ngIf="juego.jugada">{{juego.ganador}}</div>
+    <div class="IA">
+        <app-mano [cartas]="cartasIA" [show]="!juego.jugada" [claseCarta]="claseIA"></app-mano>
+        <div class="jugada-IA" *ngIf="juego.jugada">{{jugadaIA}}</div>
+    </div>
+    <div class="resultado" *ngIf="juego.jugada">{{juego.resultado}}</div>
     <div class="jugador">
-        <app-mano class="mano-jugador"></app-mano>
+        <div class="jugada-jugador">{{jugadaJugador}}</div>
+        <app-mano [cartas]="cartasJugador" [claseCarta]="claseJugador" class="mano-jugador"></app-mano>
         <div class="controles-jugador">
             <button (click)="juego.cambiarMano()" [disabled]="!juego.cambiarCartasBtn" *ngIf="!juego.yaCambiadas && !juego.jugada" type="button" class="btn btn-cambiar_mano">Cambiar Mano</button>
             <button (click)="juego.jugar()" *ngIf="!juego.jugada" type="button" class="btn btn-jugar">Jugar!</button>

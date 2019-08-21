@@ -8,20 +8,25 @@ import { Mano } from '../Interface/mano';
 })
 export class JuegoService {
 
-  cartasJuego:Carta[] = []
-  generateManoJugador:boolean = false
-  manoIA:Carta[] = []
-  manoJugador:Carta[] = []
-  cartasACambiar:Carta[] = []
-  cambiarCartasBtn:boolean = false
-  yaCambiadas:boolean = false
-  jugada:boolean = false
-  jugadaJugador:Mano
-  jugadaIA:Mano
-  mostrarJugadaJugador:string
-  mostrarJugadaIA:string
-  ganador:string
+  private cartasJuego:Carta[] = []
+  private repartirJugador:boolean = false
+  private cartasACambiar:Carta[] = []
+  private perdiste:string = 'Perdiste u.u'
+  private ganaste:string = 'Ganaste!'
   private mano$ = new Subject<Carta[]>();
+  private jugar$ = new Subject<boolean>();
+
+  public cartasIA:Carta[] = []
+  public cartasJugador:Carta[] = []
+  public cambiarCartasBtn:boolean = false
+  public yaCambiadas:boolean = false
+  public jugada:boolean = false
+  public manoJugador:Mano
+  public manoIA:Mano
+  public JugadaJugador:string
+  public JugadaIA:string
+  public resultado:string
+  public partida:boolean = false
 
   constructor() {
     
@@ -45,31 +50,32 @@ export class JuegoService {
     }
 }
   
-  repartir() {
+  private repartir() {
     for (let i = 0; i < 5; i++) {
-      if (!this.generateManoJugador) {
-        this.manoIA.push(this.crearCarta())
+      if (!this.repartirJugador) {
+        this.cartasIA.push(this.crearCarta())
       }
       else{
-        this.manoJugador.push(this.crearCarta())
+        this.cartasJugador.push(this.crearCarta())
       }
-    }if (!this.generateManoJugador) {
-      this.jugadaIA = new Mano(this.manoIA)
-      this.mostrarJugadaIA = this.jugadaIA.getJugada()
+    }if (!this.repartirJugador) {
+      this.manoIA = new Mano(this.cartasIA)
+      this.JugadaIA = this.manoIA.getJugada()
+      this.repartirJugador = true
+      this.repartir()
     }else{
-      this.jugadaJugador = new Mano(this.manoJugador)
-      this.mostrarJugadaJugador = this.jugadaJugador.getJugada()
+      this.manoJugador = new Mano(this.cartasJugador)
+      this.JugadaJugador = this.manoJugador.getJugada()
     }
-    this.generateManoJugador = true
 }
 
-  cartaSeleccionada(index:number) {
-    let existe = this.cartasACambiar.indexOf(this.cartasJuego[index+5])
+  public cartaSeleccionada(index:number) {
+    let existe = this.cartasACambiar.indexOf(this.cartasJugador[index])
     if (existe > -1) {
       this.cartasACambiar.splice(existe,1)
     }
     else {
-      this.cartasACambiar.push(this.cartasJuego[index+5])
+      this.cartasACambiar.push(this.cartasJugador[index])
     }
     if (this.cartasACambiar.length >= 1) {
       this.cambiarCartasBtn = true
@@ -78,73 +84,81 @@ export class JuegoService {
     }
   }
 
-  getNuevaMano$():Observable<Carta[]> {
-    return this.mano$.asObservable()
-  }
-
-  cambiarMano(){
+  
+  public cambiarMano(){
     for(let i = 0; i < this.cartasACambiar.length; i++) {
-      let index = this.manoJugador.indexOf(this.cartasACambiar[i])
-      this.manoJugador.splice(index,1,this.crearCarta())
+      let index = this.cartasJugador.indexOf(this.cartasACambiar[i])
+      this.cartasJugador.splice(index,1,this.crearCarta())
     }
     this.cartasACambiar = []
     this.cambiarCartasBtn = false
     this.yaCambiadas = true
-    this.jugadaJugador = new Mano(this.manoJugador)
-    this.mostrarJugadaJugador = this.jugadaJugador.getJugada()
-    this.mano$.next(this.manoJugador)
+    this.manoJugador = new Mano(this.cartasJugador)
+    this.JugadaJugador = this.manoJugador.getJugada()
+    this.mano$.next(this.cartasJugador)
   }
 
-  jugar() {
+  //evaluar las jugadas
+  public jugar() {
     this.jugada = true
-    this.jugadaJugador = new Mano(this.manoJugador)
-    this.jugadaIA = new Mano(this.manoIA)
-    this.jugadaJugador.getJugada(),
-    this.jugadaIA.getJugada()
-    let cartasIgualesJugador = this.jugadaJugador.cartasIgual,
-        cartasIgualesIA = this.jugadaIA.cartasIgual,
+    this.jugar$.next(this.jugada)
+    this.manoJugador = new Mano(this.cartasJugador)
+    this.manoIA = new Mano(this.cartasIA)
+    this.manoJugador.getJugada(),
+    this.manoIA.getJugada()
+    let cartasIgualesJugador = this.manoJugador.cartasIgual,
+        cartasIgualesIA = this.manoIA.cartasIgual,
         cartaMayorJugador = Math.max(...cartasIgualesJugador),
         cartaMayorIA = Math.max(...cartasIgualesIA),
         cartaMenorJugador = Math.min(...cartasIgualesJugador),
         cartaMenorIA = Math.min(...cartasIgualesIA)
-    if( this.jugadaJugador.nivelJugada > this.jugadaIA.nivelJugada ) {
-      this.ganador = 'Ganaste!'
-    }else if (this.jugadaJugador.nivelJugada < this.jugadaIA.nivelJugada){
-      this.ganador = 'Ganó IA U.U'
+    if( this.manoJugador.nivelJugada > this.manoIA.nivelJugada ) {
+      this.resultado = this.ganaste
+    }else if (this.manoJugador.nivelJugada < this.manoIA.nivelJugada){
+      this.resultado = this.perdiste
     }
     else if (cartaMayorJugador > cartaMayorIA) {
-          this.ganador = 'Ganaste!'
+          this.resultado = this.ganaste
         }
     else if (cartaMayorJugador < cartaMayorIA){
-      this.ganador = 'Ganó IA U.U'
+      this.resultado = this.perdiste
     }else if (cartaMenorJugador < cartaMenorIA){
-      this.ganador = 'Ganaste!'
+      this.resultado = this.ganaste
     }else if (cartaMenorJugador < cartaMenorIA){
-      this.ganador = 'Ganó IA U.U'
+      this.resultado = this.perdiste
     }
       
     else{
-      if (this.jugadaJugador.cartaAlta.valor > this.jugadaIA.cartaAlta.valor) {
-        this.ganador = 'Ganaste!'
+      if (this.manoJugador.cartaAlta.valor > this.manoIA.cartaAlta.valor) {
+        this.resultado = this.ganaste
       }else {
-        this.ganador = 'Ganó IA U.U'
+        this.resultado = this.perdiste
       }
     }
+    this.partida = false
   }
+
+  //Reset
   jugarDeNuevo() {
     this.cartasJuego = []
-    this.manoJugador = []
-    this.manoIA = []
+    this.cartasJugador = []
+    this.cartasIA = []
     this.cartasACambiar = []
     this.jugada = false
     this.yaCambiadas = false
     this.cambiarCartasBtn = false
-    this.generateManoJugador = false
-    this.mano$.next(this.manoJugador)
+    this.repartirJugador = false
     this.repartir()
-    this.repartir()
-    this.mano$.next(this.manoJugador)
-    this.mano$.next(this.manoIA)
+    this.mano$.next(this.cartasJugador)
+  }
+
+  //Observables
+  getNuevaMano$():Observable<Carta[]> {
+    return this.mano$.asObservable()
+  }
+
+  getJugada$():Observable<boolean> {
+    return this.jugar$.asObservable()
   }
 
 }

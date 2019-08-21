@@ -8,7 +8,9 @@ import { ManoComponent } from './component/mano/mano.component';
 //Services
 import { JuegoService } from './services/juego.service';
 import { CartaComponent } from './component/carta/carta.component';
-import { ManoRivalComponent } from './component/mano-rival/mano-rival.component'
+import { HomeComponent } from './component/home/home.component';
+import { NavbarComponent } from './component/navbar/navbar.component';
+import { APP_ROUTING } from './app.routes';
 
 
 @NgModule({
@@ -17,10 +19,12 @@ import { ManoRivalComponent } from './component/mano-rival/mano-rival.component'
     MesaComponent,
     ManoComponent,
     CartaComponent,
-    ManoRivalComponent
+    HomeComponent,
+    NavbarComponent
   ],
   imports: [
-    BrowserModule
+    BrowserModule,
+    APP_ROUTING
   ],
   providers: [JuegoService],
   bootstrap: [AppComponent]

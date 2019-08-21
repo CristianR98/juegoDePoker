@@ -1,0 +1,43 @@
+.navigation {
+    height: 70px;
+    width: 100%;
+    background: rgba(0, 0, 0, .5);
+    position: fixed;
+    top: -70px;
+    z-index: 50;
+    transition: .3s;
+}
+
+.ul-navigation {
+    width: 70%;
+    height: 100%;
+    display: flex;
+    justify-content: space-evenly;
+    align-items: center;
+}
+
+.li-links {}
+
+.__links {
+    text-decoration: none;
+    display: block;
+    padding: .3rem .5rem;
+    color: #19cbd8;
+    border: 1px solid #19cbd8;
+}
+
+.desplegar {
+    top: 0%;
+}
+
+.btn-menu {
+    border: none;
+    width: 30px;
+    height: 30px;
+    background-color: #19cbd8;
+    border-radius: 50%;
+    position: absolute;
+    left: 85%;
+    top: 20px;
+    z-index: 100;
+}

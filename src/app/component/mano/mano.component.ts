@@ -1,4 +1,4 @@
-import { Component, OnInit, OnChanges, Output } from '@angular/core';
+import { Component, OnInit, OnChanges, Input } from '@angular/core';
 import { JuegoService } from 'src/app/services/juego.service';
 import { Carta } from 'src/app/Interface/carta';
 import { Mano } from 'src/app/Interface/mano';
@@ -10,28 +10,24 @@ import { Mano } from 'src/app/Interface/mano';
 })
 export class ManoComponent implements OnInit, OnChanges{
 
-  cartas:Carta[] = this.juego.manoJugador
-  jugada:string = ''
+  @Input()cartas:Carta[]
+  @Input()show:boolean
+  @Input()claseCarta:string
+  cartaSeleccionada:boolean = false
+  // cartas:Carta[] = this.juego.manoJugador
   
   constructor(public juego:JuegoService) {
-    this.juego.repartir()
-    this.jugada = this.juego.mostrarJugadaJugador
   }
 
   ngOnInit() {
-    this.juego.getNuevaMano$().subscribe(()=>{
-      this.cartas = this.juego.manoJugador
-      this.jugada = this.juego.mostrarJugadaJugador
-      console.log(this.cartas)
-    })
   }
 
   ngOnChanges() {
   }
 
-  seleccionarCarta(element:HTMLElement,index:number) {
+  seleccionarCarta(index:number) {
     if (!this.juego.yaCambiadas) {
-      element.children[index].classList.toggle('select')
+      this.cartas[index].select = (this.cartas[index].select)?false:true
       this.juego.cartaSeleccionada(index)
     }
     // element.classList.toggle('select')

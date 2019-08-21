@@ -1,2 +1,5 @@
-<span class="simbolo">{{carta.simbolo}}</span>
-<span [class]="carta.color">{{carta.palo}}</span>
+<div class="carta hidden" *ngIf="show"></div>
+<div class="carta" *ngIf="!show" [ngClass]="[(carta.enJugada)?claseCarta:'',(carta.select && !juego.jugada)?'select':'']">
+    <span class="simbolo">{{carta.simbolo}}</span>
+    <span [class]="carta.color">{{carta.palo}}</span>
+</div>
