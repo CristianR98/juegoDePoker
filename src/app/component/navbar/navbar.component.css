@@ -16,7 +16,9 @@
     align-items: center;
 }
 
-.li-links {}
+.logo {
+    font-size: 2rem;
+}
 
 .__links {
     text-decoration: none;

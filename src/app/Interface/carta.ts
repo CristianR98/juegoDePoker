@@ -18,7 +18,7 @@ export class Carta {
     }
 
 
-    getSimbolo() {
+    getSimbolo():string {
         let simbolo
         switch (this.valor) {
             case 13:
@@ -39,7 +39,7 @@ export class Carta {
         return simbolo
     }
 
-    getPalo() {
+    getPalo():string {
         let num = Math.ceil(Math.random() * 4),
             palo
         switch (num) {
@@ -59,7 +59,7 @@ export class Carta {
         return palo
     }
     
-    getColor() {
+    getColor():string {
         if (this.palo == '♥' || this.palo == '♦') {
             return 'red'
         } else {

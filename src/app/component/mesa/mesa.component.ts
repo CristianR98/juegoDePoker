@@ -20,20 +20,23 @@ export class MesaComponent implements OnInit {
   }
 
   ngOnInit() {
+    console.log(this.juego.partida)
     if (!this.juego.partida) {
       this.juego.jugarDeNuevo()
-      this.cartasIA = this.juego.cartasIA
-      this.cartasJugador = this.juego.cartasJugador
-      this.jugadaIA = this.juego.JugadaIA
-      this.jugadaJugador = this.juego.JugadaJugador
-      this.juego.partida = true
     }
+    this.juego.partida = true
+    console.log(this.juego.partida)
+    this.actualizarCartas()
     this.juego.getNuevaMano$().subscribe(()=>{
-      this.cartasIA = this.juego.cartasIA
-      this.jugadaIA = this.juego.JugadaIA
-      this.jugadaJugador = this.juego.JugadaJugador
-      this.cartasJugador = this.juego.cartasJugador
+      this.actualizarCartas()
     })
+  }
+
+  private actualizarCartas() {
+    this.cartasIA = this.juego.cartasIA
+    this.cartasJugador = this.juego.cartasJugador
+    this.jugadaIA = this.juego.JugadaIA
+    this.jugadaJugador = this.juego.JugadaJugador
   }
 
 }

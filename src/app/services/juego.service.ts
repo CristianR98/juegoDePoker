@@ -101,6 +101,7 @@ export class JuegoService {
   //evaluar las jugadas
   public jugar() {
     this.jugada = true
+    this.partida = false
     this.jugar$.next(this.jugada)
     this.manoJugador = new Mano(this.cartasJugador)
     this.manoIA = new Mano(this.cartasIA)
@@ -135,11 +136,11 @@ export class JuegoService {
         this.resultado = this.perdiste
       }
     }
-    this.partida = false
   }
 
   //Reset
   jugarDeNuevo() {
+    this.partida = true
     this.cartasJuego = []
     this.cartasJugador = []
     this.cartasIA = []

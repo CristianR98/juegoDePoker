@@ -26,7 +26,7 @@ export class ManoComponent implements OnInit, OnChanges{
   }
 
   seleccionarCarta(index:number) {
-    if (!this.juego.yaCambiadas) {
+    if (!this.juego.yaCambiadas && this.claseCarta === 'jugador') {
       this.cartas[index].select = (this.cartas[index].select)?false:true
       this.juego.cartaSeleccionada(index)
     }

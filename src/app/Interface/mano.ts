@@ -14,7 +14,7 @@ export interface Mano{
 }
 
 export class Mano {
-    constructor(cartas) {
+    constructor(cartas:Carta[]) {
         this.cartas = cartas
         this.contador = 0
         this.results = []
@@ -28,7 +28,7 @@ export class Mano {
         this.nivelJugada = 0
     }
 
-    getJugada() {
+    getJugada():string {
         this.contador = 0
         this.getPaloJugada()
         for (let i = 0; i < this.cartas.length; i++) {
@@ -79,12 +79,11 @@ export class Mano {
             }
         }
         this.contador = 0
-        console.log(this.nivelJugada)
         return this.jugada
     }
 
-    private getPaloJugada() {
-        let result = this.cartas.map((carta) => {
+    private getPaloJugada():void {
+        let result = this.cartas.map((carta:Carta):boolean => {
             if (carta.palo == this.cartas[0].palo) {
                 return true
             } else {
@@ -98,8 +97,8 @@ export class Mano {
         }
     }
 
-    private getEscalera(cartaMasAlta) {
-        let result = this.cartas.find((carta) => {
+    private getEscalera(cartaMasAlta:Carta):void {
+        let result = this.cartas.find((carta:Carta):boolean => {
             return cartaMasAlta.valor - 1 == carta.valor
         })
         if (result && this.contador < 4) {

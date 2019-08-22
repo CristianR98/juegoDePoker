@@ -11,6 +11,8 @@ import { CartaComponent } from './component/carta/carta.component';
 import { HomeComponent } from './component/home/home.component';
 import { NavbarComponent } from './component/navbar/navbar.component';
 import { APP_ROUTING } from './app.routes';
+import { LogoComponent } from './component/shared/logo/logo.component';
+import { AjustesComponent } from './component/ajustes/ajustes.component';
 
 
 @NgModule({
@@ -20,7 +22,9 @@ import { APP_ROUTING } from './app.routes';
     ManoComponent,
     CartaComponent,
     HomeComponent,
-    NavbarComponent
+    NavbarComponent,
+    LogoComponent,
+    AjustesComponent
   ],
   imports: [
     BrowserModule,
