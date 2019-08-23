@@ -66,8 +66,6 @@
     .simbolo,
     .red,
     .black {
-        color: black;
         font-size: 2rem;
-        font-weight: bold;
     }
 }
