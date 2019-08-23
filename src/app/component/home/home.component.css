@@ -3,6 +3,10 @@
     font-size: 3rem;
 }
 
+.view {
+    margin: auto;
+}
+
 .navigation {
     width: 90%;
     margin: auto;

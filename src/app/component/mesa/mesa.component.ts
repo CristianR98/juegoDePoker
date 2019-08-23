@@ -32,7 +32,7 @@ export class MesaComponent implements OnInit {
     })
   }
 
-  private actualizarCartas() {
+  private actualizarCartas():void {
     this.cartasIA = this.juego.cartasIA
     this.cartasJugador = this.juego.cartasJugador
     this.jugadaIA = this.juego.JugadaIA

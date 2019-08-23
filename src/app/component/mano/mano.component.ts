@@ -25,7 +25,7 @@ export class ManoComponent implements OnInit, OnChanges{
   ngOnChanges() {
   }
 
-  seleccionarCarta(index:number) {
+  seleccionarCarta(index:number):void {
     if (!this.juego.yaCambiadas && this.claseCarta === 'jugador') {
       this.cartas[index].select = (this.cartas[index].select)?false:true
       this.juego.cartaSeleccionada(index)

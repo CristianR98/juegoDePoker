@@ -13,8 +13,8 @@ export class JuegoService {
   private cartasACambiar:Carta[] = []
   private perdiste:string = 'Perdiste u.u'
   private ganaste:string = 'Ganaste!'
-  private mano$ = new Subject<Carta[]>();
-  private jugar$ = new Subject<boolean>();
+  private mano$:Subject<Carta[]> = new Subject<Carta[]>();
+  private jugar$:Subject<boolean> = new Subject<boolean>();
 
   public cartasIA:Carta[] = []
   public cartasJugador:Carta[] = []
@@ -32,17 +32,18 @@ export class JuegoService {
     
   }
 
-  private crearCarta = () => {
-    let carta = new Carta(),
-        repetida = []
+  private crearCarta():Carta {
+    let carta:Carta = new Carta(),
+        repetida:boolean
     for (let j = 0; j < this.cartasJuego.length; j++) {
-      if (carta.valor == this.cartasJuego[j].valor && carta.palo == this.cartasJuego[j].palo) {
-          repetida.push(true)
+      if (carta.valor == this.cartasJuego[j].valor && carta.palo == this.cartasJuego[j].palo) {  
+        repetida = true
+        break
       } else {
-          repetida.push(false)
+          repetida = false
       }
   }
-    if (repetida.indexOf(true) > -1) {
+    if (repetida) {
         return this.crearCarta()
     } else {
         this.cartasJuego.push(carta)
@@ -69,8 +70,8 @@ export class JuegoService {
     }
 }
 
-  public cartaSeleccionada(index:number) {
-    let existe = this.cartasACambiar.indexOf(this.cartasJugador[index])
+  public cartaSeleccionada(index:number):void {
+    let existe:number = this.cartasACambiar.indexOf(this.cartasJugador[index])
     if (existe > -1) {
       this.cartasACambiar.splice(existe,1)
     }
@@ -85,9 +86,9 @@ export class JuegoService {
   }
 
   
-  public cambiarMano(){
+  public cambiarMano():void{
     for(let i = 0; i < this.cartasACambiar.length; i++) {
-      let index = this.cartasJugador.indexOf(this.cartasACambiar[i])
+      let index:number = this.cartasJugador.indexOf(this.cartasACambiar[i])
       this.cartasJugador.splice(index,1,this.crearCarta())
     }
     this.cartasACambiar = []
@@ -99,7 +100,7 @@ export class JuegoService {
   }
 
   //evaluar las jugadas
-  public jugar() {
+  public jugar():void {
     this.jugada = true
     this.partida = false
     this.jugar$.next(this.jugada)
@@ -107,12 +108,12 @@ export class JuegoService {
     this.manoIA = new Mano(this.cartasIA)
     this.manoJugador.getJugada(),
     this.manoIA.getJugada()
-    let cartasIgualesJugador = this.manoJugador.cartasIgual,
-        cartasIgualesIA = this.manoIA.cartasIgual,
-        cartaMayorJugador = Math.max(...cartasIgualesJugador),
-        cartaMayorIA = Math.max(...cartasIgualesIA),
-        cartaMenorJugador = Math.min(...cartasIgualesJugador),
-        cartaMenorIA = Math.min(...cartasIgualesIA)
+    let cartasIgualesJugador:number[] = this.manoJugador.cartasIgual,
+        cartasIgualesIA:number[] = this.manoIA.cartasIgual,
+        cartaMayorJugador:number = Math.max(...cartasIgualesJugador),
+        cartaMayorIA:number = Math.max(...cartasIgualesIA),
+        cartaMenorJugador:number = Math.min(...cartasIgualesJugador),
+        cartaMenorIA:number = Math.min(...cartasIgualesIA)
     if( this.manoJugador.nivelJugada > this.manoIA.nivelJugada ) {
       this.resultado = this.ganaste
     }else if (this.manoJugador.nivelJugada < this.manoIA.nivelJugada){
@@ -139,7 +140,7 @@ export class JuegoService {
   }
 
   //Reset
-  jugarDeNuevo() {
+  jugarDeNuevo():void {
     this.partida = true
     this.cartasJuego = []
     this.cartasJugador = []

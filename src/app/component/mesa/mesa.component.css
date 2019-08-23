@@ -1,7 +1,6 @@
 .mesa {
     background-color: #28a745;
     height: 100vh;
-    max-width: 960px;
     width: 100%;
     margin: auto;
     display: flex;
@@ -13,6 +12,12 @@
     text-align: center;
     font-size: 3rem;
     transform: rotate(-15deg)
+}
+
+.jugada {
+    font-size: 1.3rem;
+    text-align: center;
+    margin: 1rem;
 }
 
 .controles-jugador {
@@ -44,4 +49,16 @@
 
 .btn-retirarse {
     background-color: rgb(216, 27, 27)
+}
+
+.jugador {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+}
+
+@media screen and (min-width: 480px) {
+    .controles-jugador {
+        margin-top: 1rem;
+    }
 }

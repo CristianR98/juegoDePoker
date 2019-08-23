@@ -5,8 +5,9 @@
 }
 
 .carta-container {
-    position: relative;
     display: block;
     height: 100px;
     width: 17%;
 }
+
+@media screen and (min-width:480px) {}
